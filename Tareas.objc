@@ -1,0 +1,99 @@
+// Naomi Montserrat Barrera Bautista
+// ISSC 411             Matrícula: 77746
+// Materia: PPOSX       Profesor: Felipe Palafox
+// EXAMEN Opción 2 - Clase para Manejar una Lista de Tareas
+
+#import <Foundation/Foundation.h>
+
+// ================================================= Tareas.h =================================================
+// Se importa el framework Foundation para acceder a las clases básicas de Objective-C.
+#import <Foundation/Foundation.h>
+
+// Se declara una clase llamada Tareas que hereda de NSObject.
+@interface Tareas : NSObject{
+    NSMutableArray<NSString *> *_tareas;             // Se declara un atributo privado _tareas que es un NSMutableArray de NSString.
+}
+
+@property (nonatomic, strong) NSMutableArray<NSString *> *tareas;   // Se declara una propiedad pública tareas que proporciona acceso al arreglo de tareas.
+
+// Declaración de métodos de la clase Tareas.
+- (id)initWithTarea:(NSMutableArray<NSString *> *)t; // Inicializador de la clase que toma un arreglo mutable de cadenas como argumento.
+- (void)agregarTarea:(NSString *)tarea;              // Método para agregar una tarea al arreglo de tareas.
+- (void)eliminarTarea:(NSString *)tarea;             // Método para eliminar una tarea del arreglo de tareas.
+- (void)imprimirTareas;                              // Método para imprimir todas las tareas almacenadas.
+
+@end
+
+// ================================================= Tareas.m =================================================
+// Implementación de la clase Tareas.
+@implementation Tareas
+
+@synthesize tareas = _tareas; // Sintetiza la propiedad tareas para acceder al arreglo de tareas.
+
+- (id)initWithTarea:(NSMutableArray<NSString *> *)t {
+    // Inicializador de la clase que toma un arreglo mutable de cadenas como argumento.
+    self = [super init];
+    if (self) {
+        _tareas = t;                // Asigna el arreglo de tareas recibido al atributo privado _tareas.
+    }
+    return self;
+}
+
+- (void)agregarTarea:(NSString *)tarea {
+    // Método para agregar una tarea al arreglo de tareas.
+    [_tareas addObject:tarea];      // Agrega la tarea al arreglo de tareas.
+}
+
+- (void)eliminarTarea:(NSString *)tarea {
+    // Método para eliminar una tarea del arreglo de tareas.
+    [_tareas removeObject:tarea];   // Elimina la tarea del arreglo de tareas.
+}
+
+- (void)imprimirTareas {
+    // Método para imprimir todas las tareas almacenadas.
+    NSLog(@"========= Lista de tareas ==========");
+    for (NSString *tarea in _tareas) {
+        NSLog(@"* %@", tarea);      // Imprime cada tarea precedida por un asterisco.
+    }
+}
+
+@end
+
+// ================================================= Main =================================================
+// Función principal del programa.
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        //Crear el arreglo mutable
+        NSMutableArray<NSString *> *t = [NSMutableArray arrayWithObjects:@"Pagar las cuentas", @"Limpiar mi cuarto", nil];
+        
+        // Crear una instancia de la clase Tareas con el arreglo de tareas creado anteriormente.
+        Tareas *listaTareas = [[Tareas alloc] initWithTarea:t];
+        
+        //Imprimir lista de tareas
+        [listaTareas imprimirTareas]; // Imprime las tareas iniciales.
+        NSLog(@"\n");
+        
+        // Agregar algunas tareas
+        [listaTareas agregarTarea:@"Hacer la compra del mandado"];
+        [listaTareas agregarTarea:@"Terminar examen de Palafox"];
+        [listaTareas agregarTarea:@"Hacer el reporte de servidores"];
+        
+        // Imprimir las tareas después de agregar nuevas.
+        NSLog(@"Lista de tareas al agregar nuevas tareas:"); 
+        [listaTareas imprimirTareas];
+        NSLog(@"\n");
+        
+        // Eliminar una tarea
+        NSLog(@"Tarea Eliminada: 'Hacer la compra'.");
+        NSLog(@"Tarea Eliminada: 'Pagar las cuentas'.");
+        [listaTareas eliminarTarea:@"Hacer la compra del mandado"];
+        [listaTareas eliminarTarea:@"Pagar las cuentas"];
+        NSLog(@"\n");
+        
+        // Imprimir las tareas después de eliminar algunas.
+        NSLog(@"Lista de tareas despúes de eliminar las tareas:"); 
+        [listaTareas imprimirTareas];
+        NSLog(@"\n");
+    }
+    return 0; // Retorna 0 indicando que el programa finalizó exitosamente.
+}

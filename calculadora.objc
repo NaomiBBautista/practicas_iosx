@@ -1,0 +1,53 @@
+#import <Foundation/Foundation.h>
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+    
+
+    //Variales para hacer la operacion formato string
+    NSString *numero1 = @"cuatro";
+    NSString *numero2 = @"cinco";
+    NSString *operacion = @"suma";
+    
+    //Diccionarios
+    NSDictionary *numeros = @{@"uno": @1, @"dos": @2, @"tres": @3,
+                            @"cuatro": @4, @"cinco": @5, @"seis": @6,
+                            @"siete": @7, @"ocho": @8, @"nueve": @9};
+                            
+    NSDictionary *operaciones = @{@"suma": @1, @"+":@1, @"resta":@2, @"-":@2,
+                                @"division":@3, @"/":@3, @"multiplicacion":@4,
+                                @"*":@4};
+                                
+    //Variables que almecenan el valor numerico
+        NSNumber *num1 = numeros[numero1];
+    NSNumber *num2 = numeros[numero2];
+    NSNumber *op = operaciones[operacion];
+    
+    //Realizar segun la operacion
+    NSLog(@"----- CALCULADORA ALFANUMERICA -----");
+    int opera = 0;
+        switch([op intValue]){
+            case 1:
+                opera = [num1 intValue] + [num2 intValue];
+                NSLog(@"La %@ de %@ y %@ es igual a %i", operacion, num1, num2, opera);
+                break;
+                
+            case 2:
+                opera = [num1 intValue] - [num2 intValue];
+                NSLog(@"La %@ de %@ y %@ es igual a %i", operacion, num1, num2, opera);
+                break;
+                
+            case 3:
+                opera = [num1 intValue] / [num2 intValue];
+                NSLog(@"La %@ de %@ y %@ es igual a %i", operacion, num1, num2, opera);
+                break;
+                
+            case 4:
+                opera = [num1 intValue] * [num2 intValue];
+                NSLog(@"La %@ de %@ y %@ es igual a %i", operacion, num1, num2, opera);
+                break;
+        }
+    }
+    
+    return 0;
+}

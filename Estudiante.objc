@@ -1,0 +1,150 @@
+// Naomi Montserrat Barrera Bautista
+// ISSC 411             Matrícula: 77746
+// Materia: PPOSX       Profesor: Felipe Palafox
+// EXAMEN Opcion 2 - Sistema de Gestión de Estudiantes
+
+#import <Foundation/Foundation.h>
+
+// ================================================= Estudiante.h =================================================
+// Definición de la interfaz de la clase Estudiante
+@interface Estudiante : NSObject {
+    NSString *_nombre;               // Variable de instancia para el nombre del estudiante
+    NSString *_edad;                 // Variable de instancia para la edad del estudiante
+    NSArray *_calificaciones;        // Variable de instancia para las calificaciones del estudiante
+}
+
+// Declaración de propiedades
+@property (nonatomic, strong) NSString *nombre;            // Propiedad para acceder al nombre del estudiante
+@property (nonatomic, strong) NSString *edad;              // Propiedad para acceder a la edad del estudiante
+@property (nonatomic, strong) NSArray *calificaciones;     // Propiedad para acceder a las calificaciones del estudiante
+
+// Método de inicialización
+- (id)initWithNombre:(NSString *)nombreEstudiante edad:(NSString *)edadEstudiante calificaciones:(NSArray *)cal;
+
+// Método para calcular el promedio de calificaciones
+- (float)calcularPromedio;
+
+@end
+
+
+// ================================================= Estudiante.m =================================================
+// Implementación de la clase Estudiante
+@implementation Estudiante
+
+// Síntesis de las propiedades para enlazarlas con las variables de instancia
+@synthesize nombre = _nombre;
+@synthesize edad = _edad;
+@synthesize calificaciones = _calificaciones;
+
+// Implementación del método de inicialización
+- (id)initWithNombre:(NSString *)nombreEstudiante edad:(NSString *)edadEstudiante calificaciones:(NSArray *)cal {
+    self = [super init];                   // Llamada al inicializador de la superclase
+    if (self) {                            // Verificación de la inicialización
+        _nombre = nombreEstudiante;        // Asignación del nombre
+        _edad = edadEstudiante;            // Asignación de la edad
+        _calificaciones = cal;             // Asignación de las calificaciones
+    }
+    return self;                           // Retorno de la instancia inicializada
+}
+
+// Implementación del método para calcular el promedio de calificaciones
+- (float)calcularPromedio {
+    float suma = 0;                                    // Variable para almacenar la suma de las calificaciones
+    for (NSNumber *calificacion in _calificaciones) {  // Iteración sobre las calificaciones
+        suma += [calificacion floatValue];             // Suma de cada calificación
+    }
+    return suma / _calificaciones.count;               // Cálculo y retorno del promedio
+}
+@end
+
+
+// ================================================= GestionEstudiantes.h =================================================
+// Definición de la interfaz de la clase GestionEstudiantes
+@interface GestionEstudiantes : NSObject {
+    NSMutableArray<Estudiante *> *_estudiantes;        // Variable de instancia para la lista de estudiantes
+}
+
+// Declaración de la propiedad
+@property (nonatomic, strong) NSMutableArray<Estudiante *> *estudiantes;   // Propiedad para acceder a la lista de estudiantes
+
+// Métodos para gestionar estudiantes
+- (void)agregarEstudiante:(Estudiante *)estudianteAgregado;  // Método para agregar un estudiante
+- (void)eliminarEstudiante:(NSString *)estudianteEliminado;  // Método para eliminar un estudiante
+- (void)listarEstudiantes;                                   // Método para listar todos los estudiantes
+
+@end
+
+
+// ================================================= GestionEstudiantes.m =================================================
+// Implementación de la clase GestionEstudiantes
+@implementation GestionEstudiantes
+
+// Síntesis de la propiedad para enlazarla con la variable de instancia
+@synthesize estudiantes = _estudiantes;
+
+// Implementación del método de inicialización
+- (instancetype)init {
+    self = [super init];                            // Llamada al inicializador de la superclase
+    if (self) {                                     // Verificación de la inicialización
+        _estudiantes = [NSMutableArray array];      // Inicialización de la lista de estudiantes
+    }
+    return self;                                    // Retorno de la instancia inicializada
+}
+
+// Implementación del método para agregar un estudiante
+- (void)agregarEstudiante:(Estudiante *)estudianteAgregado {
+    [self.estudiantes addObject:estudianteAgregado];   // Agregar el estudiante a la lista
+}
+
+// Implementación del método para eliminar un estudiante
+- (void)eliminarEstudiante:(NSString *)estudianteEliminado {
+    Estudiante *estudianteAEliminar = nil;             // Variable para almacenar el estudiante a eliminar
+    for (Estudiante *eliminado in self.estudiantes) {  // Iteración sobre la lista de estudiantes
+        if ([eliminado.nombre isEqualToString:estudianteEliminado]) {  // Verificación del nombre del estudiante
+            estudianteAEliminar = eliminado;          // Almacenar el estudiante encontrado
+            break;                                    // Salir del bucle
+        }
+    }
+    if (estudianteAEliminar) {                        // Verificación si se encontró el estudiante
+        [self.estudiantes removeObject:estudianteAEliminar];  // Eliminar el estudiante de la lista
+    }
+}
+
+// Implementación del método para listar todos los estudiantes
+- (void)listarEstudiantes {
+    for (Estudiante *buscado in self.estudiantes) {    // Iteración sobre la lista de estudiantes
+        NSLog(@"Nombre: %@, Edad: %@, Promedio: %.2f", // Imprimir detalles de cada estudiante
+              buscado.nombre, buscado.edad, [buscado calcularPromedio]);
+    }
+}
+
+@end
+
+
+// ================================================= Main =================================================
+// Función principal
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {   // Bloque autoreleasepool para gestión de memoria
+        // Creación de instancias de Estudiante
+        Estudiante *est1 = [[Estudiante alloc] initWithNombre:@"Samuel Conde" edad:@"19" calificaciones:@[@94, @90, @98]];
+        Estudiante *est2 = [[Estudiante alloc] initWithNombre:@"Diego Gomez" edad:@"21" calificaciones:@[@72, @88, @95]];
+
+        // Creación de una instancia de GestionEstudiantes
+        GestionEstudiantes *gestion = [[GestionEstudiantes alloc] init];
+        [gestion agregarEstudiante:est1];  // Agregar estudiante est1
+        [gestion agregarEstudiante:est2];  // Agregar estudiante est2
+        
+        NSLog(@"========== Listado de Estudiantes: ==========");  // Imprimir mensaje
+        [gestion listarEstudiantes];                              // Listar todos los estudiantes
+        NSLog(@"\n");                                             //Salto de línea
+        
+        NSLog(@"Eliminando estudiante 'Samuel Conde'.");  // Imprimir mensaje
+        [gestion eliminarEstudiante:@"Samuel Conde"];     // Eliminar estudiante con nombre "Samuel Conde"
+        NSLog(@"\n");                                     //Salto de línea
+        
+        NSLog(@"Listado de estudiantes después de la eliminación:");  // Imprimir mensaje
+        NSLog(@"========== Listado de Estudiantes ==========");      // Imprimir mensaje
+        [gestion listarEstudiantes];                                  // Listar todos los estudiantes después de la eliminación
+    }
+    return 0;  // Retorno de la función principal
+}

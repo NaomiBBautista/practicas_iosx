@@ -1,0 +1,205 @@
+// Naomi Montserrat Barrera Bautista
+// ISSC 411             Matrícula: 77746
+// Materia: PPOSX       Profesor: Felipe Palafox
+// EXAMEN Opcion 2 - Calculadora de Matrices
+
+#import <Foundation/Foundation.h>
+
+// ================================================= Matrices.h =================================================
+// Declaración de la interfaz Matrices, que es una subclase de NSObject
+@interface Matrices : NSObject {
+    // Variable de instancia que almacena una matriz
+    NSArray<NSArray<NSNumber *> *> *_matriz;
+}
+
+// Declaración del método inicializador que recibe una matriz
+- (id)initWithMatriz:(NSArray<NSArray<NSNumber *> *> *)m;
+
+// Declaración del método para sumar dos matrices
+- (NSArray<NSArray<NSNumber *> *> *)sumarMatriz1:(NSArray<NSArray<NSNumber *> *> *)matrizA sumarMatriz2:(NSArray<NSArray<NSNumber *> *> *)matrizB;
+
+// Declaración del método para restar dos matrices
+- (NSArray<NSArray<NSNumber *> *> *)restarMatriz1:(NSArray<NSArray<NSNumber *> *> *)matrizA restarMatriz2:(NSArray<NSArray<NSNumber *> *> *)matrizB;
+
+// Declaración del método para multiplicar dos matrices
+- (NSArray<NSArray<NSNumber *> *> *)multiplicarMatriz1:(NSArray<NSArray<NSNumber *> *> *)matrizA multiplicarMatriz2:(NSArray<NSArray<NSNumber *> *> *)matrizB;
+
+// Declaración del método para imprimir una matriz
+- (void)imprimirMatriz:(NSArray<NSArray<NSNumber *> *> *)matriz;
+@end
+
+
+
+// ================================================= Matrices.m =================================================
+// Implementación de la clase Matrices
+@implementation Matrices
+
+// Implementación del método inicializador que recibe una matriz
+- (id)initWithMatriz:(NSArray<NSArray<NSNumber *> *> *)m {
+    self = [super init]; // Llamada al inicializador de la superclase
+    if (self) {
+        _matriz = m; // Asignación de la matriz pasada como parámetro a la variable de instancia
+    }
+    return self; // Retorno de la instancia inicializada
+}
+
+// Método que recibe dos matrices y las suma
+- (NSArray<NSArray<NSNumber *> *> *)sumarMatriz1:(NSArray<NSArray<NSNumber *> *> *)matrizA sumarMatriz2:(NSArray<NSArray<NSNumber *> *> *)matrizB {
+    // Obtener las dimensiones de las matrices
+    NSInteger filaA = [matrizA count];
+    NSInteger columnaA = [[matrizA objectAtIndex:0] count];
+    NSInteger filaB = [matrizB count];
+    NSInteger columnaB = [[matrizB objectAtIndex:0] count];
+    
+    // Verificar que las matrices tengan las mismas dimensiones
+    if (filaA != filaB || columnaA != columnaB) {
+        NSLog(@"Las matrices deben tener las mismas dimensiones");
+        return nil;
+    }
+    
+    // Crear una matriz para almacenar el resultado
+    NSMutableArray<NSMutableArray<NSNumber *> *> *matrizSumada = [NSMutableArray arrayWithCapacity:filaA];
+    
+    // Realizar la suma de las matrices
+    for (NSInteger i = 0; i < filaA; i++) {
+        NSMutableArray<NSNumber *> *fila = [NSMutableArray arrayWithCapacity:columnaA];
+        for (NSInteger j = 0; j < columnaA; j++) {
+            // Sumar los elementos correspondientes de las matrices A y B
+            NSNumber *sum = @([[[matrizA objectAtIndex:i] objectAtIndex:j] integerValue] + [[[matrizB objectAtIndex:i] objectAtIndex:j] integerValue]);
+            [fila addObject:sum]; // Añadir el resultado a la fila
+        }
+        [matrizSumada addObject:fila]; // Añadir la fila a la matriz resultante
+    }
+    
+    return [matrizSumada copy]; // Retornar la matriz resultante
+}
+
+// Método que recibe dos matrices y las resta
+- (NSArray<NSArray<NSNumber *> *> *)restarMatriz1:(NSArray<NSArray<NSNumber *> *> *)matrizA restarMatriz2:(NSArray<NSArray<NSNumber *> *> *)matrizB{
+     // Obtener las dimensiones de las matrices
+    NSInteger filaA = [matrizA count];
+    NSInteger columnaA = [[matrizA objectAtIndex:0] count];
+    NSInteger filaB = [matrizB count];
+    NSInteger columnaB = [[matrizB objectAtIndex:0] count];
+    
+    // Verificar que las matrices tengan las mismas dimensiones
+    if (filaA != filaB || columnaA != columnaB) {
+        NSLog(@"Las matrices deben tener las mismas dimensiones");
+        return nil;
+    }
+    
+    // Crear una matriz para almacenar el resultado
+    NSMutableArray<NSMutableArray<NSNumber *> *> *matrizRestada = [NSMutableArray arrayWithCapacity:filaA];
+    
+    // Realizar la resta de las matrices
+    for (NSInteger i = 0; i < filaA; i++) {
+        NSMutableArray<NSNumber *> *fila = [NSMutableArray arrayWithCapacity:columnaA];
+        for (NSInteger j = 0; j < columnaA; j++) {
+            // Restar los elementos correspondientes de las matrices A y B
+            NSNumber *sum = @([[[matrizA objectAtIndex:i] objectAtIndex:j] integerValue] - [[[matrizB objectAtIndex:i] objectAtIndex:j] integerValue]);
+            [fila addObject:sum]; // Añadir el resultado a la fila
+        }
+        [matrizRestada addObject:fila]; // Añadir la fila a la matriz resultante
+    }
+    
+    return [matrizRestada copy]; // Retornar la matriz resultante
+}
+
+// Método que recibe dos matrices, las multiplica y retorna la matriz resultante
+- (NSArray<NSArray<NSNumber *> *> *)multiplicarMatriz1:(NSArray<NSArray<NSNumber *> *> *)matrizA multiplicarMatriz2:(NSArray<NSArray<NSNumber *> *> *)matrizB {
+    // Obtener las dimensiones de las matrices
+    NSInteger filaA = [matrizA count];
+    NSInteger columnaA = [[matrizA objectAtIndex:0] count];
+    NSInteger filaB = [matrizB count];
+    NSInteger columnaB = [[matrizB objectAtIndex:0] count];
+    
+    // Verificar que el número de columnas de A sea igual al número de filas de B
+    if (columnaA != filaB) {
+        NSLog(@"El número de columnas de la primera matriz debe ser igual al número de filas de la segunda matriz");
+        return nil;
+    }
+    
+    // Crear una matriz para almacenar el resultado
+    NSMutableArray<NSMutableArray<NSNumber *> *> *matrizMultiplicada = [NSMutableArray arrayWithCapacity:filaA];
+    
+    // Realizar la multiplicación de las matrices
+    for (int i = 0; i < filaA; i++) {
+        NSMutableArray<NSNumber *> *fila = [NSMutableArray arrayWithCapacity:columnaB];
+        for (int j = 0; j < columnaB; j++) {
+            NSInteger suma = 0; // Inicializar la suma de la celda (i,j)
+            for (int k = 0; k < columnaA; k++) {
+                // Multiplicar y acumular los productos de los elementos correspondientes
+                suma += [[[matrizA objectAtIndex:i] objectAtIndex:k] integerValue] * [[[matrizB objectAtIndex:k] objectAtIndex:j] integerValue];
+            }
+            [fila addObject:@(suma)]; // Añadir el resultado a la fila
+        }
+        [matrizMultiplicada addObject:fila]; // Añadir la fila a la matriz resultante
+    }
+    
+    return [matrizMultiplicada copy]; // Retornar la matriz resultante
+}
+
+// Método que imprime la matriz en formato columna-fila
+- (void)imprimirMatriz:(NSArray<NSArray<NSNumber *> *> *)matriz {
+    // Iterar sobre cada fila de la matriz
+    for (NSArray<NSNumber *> *fila in matriz) {
+        NSMutableString *filaStr = [NSMutableString string]; // Crear una cadena mutable para la fila
+        // Iterar sobre cada número en la fila
+        for (NSNumber *numero in fila) {
+            [filaStr appendFormat:@"%@ ", numero]; // Añadir el número a la cadena
+        }
+        NSLog(@"%@", filaStr); // Imprimir la cadena de la fila
+    }
+}
+@end
+
+
+
+// ================================================= Main =================================================
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        // Ejemplo de uso
+        NSArray<NSArray<NSNumber *> *> *matA = @[
+            @[@3, @5, @2],
+            @[@6, @4, @7],
+            @[@8, @1, @9]
+        ]; // Definición de la matriz A
+        
+        NSArray<NSArray<NSNumber *> *> *matB = @[
+            @[@9, @3, @2],
+            @[@1, @5, @3],
+            @[@4, @6, @8]
+        ]; // Definición de la matriz B
+        
+        Matrices *matrices = [[Matrices alloc] initWithMatriz:nil]; // Crear una instancia de la clase Matrices
+        
+        // MOSTRAR MATRICES
+        NSLog(@"========== Matriz A ==========");
+        [matrices imprimirMatriz:matA]; // Imprimir la matriz A
+        NSLog(@"\n");
+        // NSLog(@"========== Matriz B ==========");
+        [matrices imprimirMatriz:matB]; // Imprimir la matriz B
+
+        // SUMAR MATRICES
+        //NSArray<NSArray<NSNumber *> *> *matSumada = [matrices sumarMatriz1:matA sumarMatriz2:matB];
+        //NSLog(@"\n");
+        //NSLog(@"Matriz resultante de sumar ambas matrices:");
+        // NSLog(@"========== Matriz Sumada ==========");
+        //[matrices imprimirMatriz:matSumada];
+
+        // RESTAR MATRICES
+        //NSArray<NSArray<NSNumber *> *> *matRestada = [matrices restarMatriz1:matA restarMatriz2:matB];
+        //NSLog(@"\n");
+        //NSLog(@"Matriz resultante de restar ambas matrices:");
+        // NSLog(@"========== Matriz Restada ==========");
+        //[matrices imprimirMatriz:matRestada];
+
+        // MULTIPLICAR MATRICES
+        NSArray<NSArray<NSNumber *> *> *matMultiplicada = [matrices multiplicarMatriz1:matA multiplicarMatriz2:matB]; // Multiplicar las matrices A y B
+        NSLog(@"\n");
+        NSLog(@"Matriz resultante de multiplicar ambas matrices:");
+        // NSLog(@"========== Matriz Multiplicada ==========");
+        [matrices imprimirMatriz:matMultiplicada]; // Imprimir la matriz resultante de la multiplicación
+    }
+    return 0; // Finalizar el programa
+}
