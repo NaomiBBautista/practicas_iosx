@@ -53,5 +53,5 @@ Este código implementa un sistema de gestión de inventario en Objective-C, con
 Este código en Swift calcula y acumula la puntuación de las palabras ingresadas por el usuario, asignando un valor numérico a cada letra (a=1, b=2, ..., z=26). El programa repite el proceso de solicitar una palabra y calcular su puntuación hasta que la puntuación total acumulada supera los 100 puntos.
 
 
-### `Tareas.objc`:
+#### `Tareas.objc`:
 Este código en Objective-C define e implementa una clase Tareas para manejar una lista de tareas. Incluye métodos para agregar, eliminar e imprimir tareas. En la función principal, se crea una instancia de Tareas, se inicializa con algunas tareas, se agregan nuevas tareas, se eliminan algunas y finalmente se imprimen las tareas restantes.
