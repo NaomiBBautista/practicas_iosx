@@ -1,10 +1,6 @@
 # practicas_iosx
 Prácticas y proyectos relacionadas con IOS X, en lenguaje Swift y Objective-C para uso en consola. A continuación una breve explicación de lo que se realiza en cada ejercicio:
 
-#### `Carrera.swift`:
-ste código en Swift simula una carrera entre dos vehículos en dos carriles diferentes. Los vehículos avanzan hacia la meta mientras evitan colisiones con obstáculos (marcados como 🧱). Si ocurre una colisión, se marca con 💥 y el vehículo continúa avanzando después de la colisión. El ciclo se repite hasta que uno de los vehículos llega a la meta (🏁).
-
-
 #### `Batalla_Naval.swift`:
 Este código en Swift implementa un juego de batalla naval. Los tableros del jugador y del enemigo se inicializan con posiciones aleatorias para los barcos. Los jugadores, tanto humano como computadora, atacan por turnos hasta que todos los barcos de uno de los jugadores son hundidos. Al final, se determina y se anuncia el ganador.
 
@@ -15,6 +11,10 @@ Este código en Swift implementa un juego de Buscaminas. El usuario ingresa el t
 
 #### `Calculadora.objc`:
 Este código implementa una calculadora que convierte números y operaciones en formato de texto a sus valores numéricos, realiza la operación correspondiente, e imprime el resultado. Utiliza diccionarios para mapear las palabras a números y operaciones matemáticas.
+
+
+#### `Carrera.swift`:
+ste código en Swift simula una carrera entre dos vehículos en dos carriles diferentes. Los vehículos avanzan hacia la meta mientras evitan colisiones con obstáculos (marcados como 🧱). Si ocurre una colisión, se marca con 💥 y el vehículo continúa avanzando después de la colisión. El ciclo se repite hasta que uno de los vehículos llega a la meta (🏁).
 
 
 #### `Estudiante.objc`:
